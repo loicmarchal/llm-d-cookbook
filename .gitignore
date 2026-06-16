@@ -1,0 +1,32 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+.nfs*
+core
+core.*
+*.orig
+.directory
+.fuse_hidden*
+
+# Local workspace (store local-only files here if desired)
+.local/
+
+# Local assessment / tooling outputs
+.agentready/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Editor / IDE
+.idea/
+*.swp
+*.swo
+.vscode
+.history/
+# Ignore specific local Cursor caches if they appear
+.cursor/cache/
