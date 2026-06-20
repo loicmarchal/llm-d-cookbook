@@ -17,10 +17,10 @@
 #     but expects an existing InferencePool)
 #
 # Usage:
-#   ./test-priority-holdback.sh [GATEWAY_URL] [METRICS_URL] [NAMESPACE] [INFERENCE_POOL]
+#   ./test-priority-holdback.sh <NAMESPACE> [GATEWAY_URL] [METRICS_URL] [INFERENCE_POOL]
 #
 # Example:
-#   ./test-priority-holdback.sh http://localhost:30080 http://localhost:9090 default my-pool
+#   ./test-priority-holdback.sh llm-d-test http://localhost:30080 http://localhost:9090 my-pool
 
 set -euo pipefail
 
@@ -28,10 +28,21 @@ set -euo pipefail
 # Configuration
 # ---------------------------------------------------------------------------
 
-GATEWAY_URL="${1:-http://localhost:30080}"
-METRICS_URL="${2:-http://localhost:9090}"
-NAMESPACE="${3:-default}"
+NAMESPACE="${1:-}"
+GATEWAY_URL="${2:-http://localhost:30080}"
+METRICS_URL="${3:-http://localhost:9090}"
 INFERENCE_POOL="${4:-my-pool}"
+
+if [[ -z "$NAMESPACE" ]]; then
+    echo "Error: NAMESPACE is required as the first argument."
+    echo "Usage: $0 <NAMESPACE> [GATEWAY_URL] [METRICS_URL] [INFERENCE_POOL]"
+    exit 1
+fi
+
+if [[ "$NAMESPACE" == "default" ]]; then
+    echo "Error: The 'default' namespace is not allowed. Use your individual namespace or a dedicated test namespace if available."
+    exit 1
+fi
 MODEL_NAME="${MODEL_NAME:-test-model}"
 
 # Priority levels to test (highest to lowest)
